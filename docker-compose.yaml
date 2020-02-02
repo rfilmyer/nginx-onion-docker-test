@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+    environment:
+      - TZ=America/New_York
+    restart: always
+  tor:
+    container_name: tor-hidden-service
+    image: goldy/tor-hidden-service
+    environment:
+      NGINX_TOR_SERVICE_HOSTS: 80:nginx:80 # TODO: SSL/H2 w/Self-Signed Cert
+      NGINX_TOR_SERVICE_VERSION: '3'
+      # Pro tip: Never do this ⤵
+      NGINX_TOR_SERVICE_KEY: PT0gZWQyNTUxOXYxLXNlY3JldDogdHlwZTAgPT0AAABQBeECg+xSw7+r0qmEg5hSlGVhZ6AF2TpG+GeF976dX8nD+MPx8sip57oiMiQHUpAi//TVlzKh/ZDMiisQqqlM
+      # TODO: Docker Secrets
+    restart: always
