@@ -1,0 +1,4 @@
+# Friends don't let friends commit private keys to git repos
+*.key
+*.crt
+

@@ -7,6 +7,18 @@ services:
       - type: bind
         source: ./nginx.conf
         target: /etc/nginx/nginx.conf
+      - type: bind
+        source: ./certs
+        target: /etc/nginx/certs
+    # ports:
+      # - target: 80
+      #  published: 80
+      #  protocol: tcp
+      #  mode: host
+      # - target: 443
+      #   published: 443
+      #   protocol: tcp
+      #   mode: host
     environment:
       - TZ=America/New_York
     restart: always
@@ -14,7 +26,7 @@ services:
     container_name: tor-hidden-service
     image: goldy/tor-hidden-service
     environment:
-      NGINX_TOR_SERVICE_HOSTS: 80:nginx:80 # TODO: SSL/H2 w/Self-Signed Cert
+      NGINX_TOR_SERVICE_HOSTS: 80:nginx:80,443:nginx:443
       NGINX_TOR_SERVICE_VERSION: '3'
       # Pro tip: Never do this ⤵
       NGINX_TOR_SERVICE_KEY: PT0gZWQyNTUxOXYxLXNlY3JldDogdHlwZTAgPT0AAABQBeECg+xSw7+r0qmEg5hSlGVhZ6AF2TpG+GeF976dX8nD+MPx8sip57oiMiQHUpAi//TVlzKh/ZDMiisQqqlM
